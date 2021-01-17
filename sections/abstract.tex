@@ -1,0 +1,17 @@
+\maketitle
+\thispagestyle{firstpage}
+
+\begin{abstract}
+    In this report we examine key commitment in Authenticated encryption and vulnerabilities that
+    arise when it is not used exactly as designed.
+    Recent research shows new class of attacks such as partitioning oracles which arise when AE
+    schemes are not committing with respect to their keys.
+    As key commitment is not part of AE’s design goal, AE schemes in general do not satisfy
+    it.
+    \\
+    We show an adaptive chosen ciphertext attack that utilizes
+    key multi-collision against widely used AEAD schemes, including
+    AES-GCM, XSalsa20/Poly1305, and ChaCha20/Poly1305, to build a partitioning oracle.
+    \\
+    We also discuss an early implementation of the OPAQUE protocol (a protocol for password-based key exchange) that is vulnerable to partitioning oracle.
+\end{abstract}

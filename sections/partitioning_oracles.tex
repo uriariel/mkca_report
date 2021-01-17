@@ -1,0 +1,22 @@
+The design of encryption historically separated the goals of confidentiality and authenticity, which led to widespread
+deployment of encryption schemes vulnerable to chosen ciphertext attacks (CCA).
+
+Subsequently, researchers showed how to exploit CCAs to recover plaintext data, most notably via padding and
+format oracle attacks
+As a result, cryptographers now advocate the use of authenticated encryption with associated data (AEAD) schemes and CCA-secure
+public key encryption.
+There has since been a shift to adopt fast CCA-secure schemes, notably AES-GCM, and XSalsa20/Poly1305.
+
+Such schemes do not target being committing.
+Thus far, key commitment has not been considered an essential security goal for most cryptographic applications.
+This is perhaps because attacks exploiting key collision have arisen in relatively niche applications like
+message franking for encrypted messages.
+
+Grubbs et al. introduce partitioning oracle attacks, a new type of CCA in password-authenticated key exchange (PAKE).
+A partitioning oracle arises when an attacker can:
+\begin{enumerate}
+    \item efficiently prepare ciphertexts that will decrypt under a large number of keys
+    \item submit those ciphertexts to an oracle that tells whether decryption succeeds or fails.
+\end{enumerate}
+
+This enables gaining information about the password.

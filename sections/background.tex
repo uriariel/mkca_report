@@ -1,0 +1,11 @@
+\subsection*{Authenticated Encryption}\label{subsec:authenticated-encryption}
+
+\subsection*{AES-GCM}\label{subsec:aes-gcm}
+AES-GCM is an AEAD scheme that composes AES in counter mode with a specially designed MAC.
+It uses an XOR-universal hash function called GHASH.
+Encryption takes in a nonce N, an AES key K, associated data AD, and plaintext M.
+and it outputs a ciphertext $C_{1},\ldots,C_{n}$ and an authentication tag T.
+The ciphertext blocks $C_{1},\ldots,C_{n}$ are generated using counter mode with E, and the tag T
+is computed by applying GHASH to AD and $C_{1},\ldots,C_{n}$.
+Decryption also computes the tag, compares it with T, and, if successful, outputs the counter-mode decryption of the ciphertext
+blocks.

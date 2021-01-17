@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{ifpdf,newtxtext,newtxmath}
+\usepackage{array,graphicx,dcolumn,multirow,abstract,hanging,fancyhdr,float}
+
+\newcommand{\jref}{}
+\newcommand{\jhead}{University of Haifa}
+\newcommand{\jdate}{January 2021}
+
+\pagestyle{fancy}
+\fancyhead[L]{\protect\small \href{\jref}{\jhead}, \jdate}
+\fancyhead[R]{\protect\small MKCA}
+\fancypagestyle{firstpage}{
+    \lhead{\protect\small \href{\jref}{\jhead}, \jdate}
+    \rhead{}
+}
+
+\usepackage[labelfont = sc,textfont = sf]{caption}
+\usepackage[hyperfootnotes = false,breaklinks = true]{hyperref}
+\urlstyle{rm}
+\usepackage[hyphenbreaks]{breakurl}
+
+\usepackage{booktabs}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+\newcommand{\mc}{\multicolumn}
+
+\setlength{\parindent}{0em}
+
+\setcounter{page}{1}
+
+\title{Key commitment and Multi Key Collision Attacks}
+
+\author{Uri Ariel Yahalom\thanks{Department of Computer Science, University of Haifa.}
+\and Shay Gueron\thanks{Department of Management, University of Haifa.}}
+
+\date{}
+\begin{document}
+
+    \input{sections/abstract.tex}
+    \newpage
+
+
+    \section{Background}\label{sec:background}
+    \input{sections/background.tex}
+    \newpage
+
+
+    \section{Key Commitment}\label{sec:key-commitment}
+    \input{sections/key_commitment.tex}
+    \newpage
+
+
+    \section{Multi Key Collision Attacks}\label{sec:multi-key-collision-attacks}
+    \input{sections/mkca.tex}
+    \newpage
+
+
+    \section{Partitioning Oracles}\label{sec:partitioning-oracles}
+    \input{sections/partitioning_oracles.tex}
+    \newpage
+
+    \section*{References}
+    \input{sections/references.tex}
+    \newpage
+
+
+    \section*{Appendix}
+    \input{sections/appendix.tex}
+    \newpage
+
+
+\end{document}
