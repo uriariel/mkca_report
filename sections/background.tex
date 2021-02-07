@@ -1,9 +1,21 @@
 \subsection*{Authenticated Encryption}\label{subsec:authenticated-encryption}
+Authenticated Encryption (AE)\cite{rfc5116} is a well-studied primitive which avoids the pitfalls of unauthenticated
+Symmetric-key encryption with relatively small performance overhead
+AE schemes are used in widely adopted protocols and are the default Symmetric option in modern cryptographic libraries.
 
+The design of encryption historically separated the goals of confidentiality and authenticity, which led to widespread
+deployment of encryption schemes vulnerable to chosen ciphertext attacks (CCA).
+
+Subsequently, researchers showed how to exploit CCAs to recover plaintext data, most notably via padding and
+format oracle attacks
+As a result, cryptographers now advocate the use of authenticated encryption with associated data (AEAD) schemes and CCA-secure
+public key encryption.
+
+There has since been a shift to adopt fast CCA-secure schemes, notably AES-GCM, and XSalsa20/Poly1305.
 \subsection*{AES-GCM}\label{subsec:aes-gcm}
 AES-GCM is an AEAD scheme that composes AES in counter mode with a specially designed MAC.
 It uses an XOR-universal hash function called GHASH.
-Encryption takes in a nonce N, an AES key K, associated data AD, and plaintext M.
+Encryption takes in a nonce N, an AES key K, associated data AD, and plaintext $M_{1},\ldots,M_{n}$ without loss of generality (AES-GCM specification handles various length).
 and it outputs a ciphertext $C_{1},\ldots,C_{n}$ and an authentication tag T.
 The ciphertext blocks $C_{1},\ldots,C_{n}$ are generated using counter mode with E, and the tag T
 is computed by applying GHASH to AD and $C_{1},\ldots,C_{n}$.
