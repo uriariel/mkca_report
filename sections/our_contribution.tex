@@ -4,4 +4,39 @@ In practice, to perform a multi key collision attack against AES-GCM
 we need to solve a system of linear equations.
 This is possible because of the algebraic properties of the universal hashing in AES-GCM.
 
-We implemented a solver for such a system of linear equations for 2 keys, 3 keys, and arbitrary constraints.
+We implemented a solver for such a system of linear equations for 2 keys, 3 keys, and an arbitrary constraints.
+
+\hfill \break
+
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{5cm}| }
+    \hline
+    Key count & Time       & Ciphertext size & Ciphertext size/Key count \\
+    \hline
+    2         & 0.04199    & 4               & 2                         \\
+    4         & 0.0934324  & 6               & 1.5                       \\
+    8         & 0.0628430  & 10              & 1.25                      \\
+    16        & 0.1656253  & 18              & 1.125                     \\
+    64        & 0.708905   & 66              & 1.03125                   \\
+    256       & 7.526772   & 258             & 1.0078125                 \\
+    1024      & 46.03521   & 1026            & 1.001953125               \\
+    4096      & 996.350043 & 4098            & 1.00048828125             \\
+    \hline
+\end{tabular}
+
+\hfill \break
+
+From the above table we can clearly see that the resulting ciphertext is linear in the size of the key space.
+and in fact are exactly the key count and two additional blocks.
+
+The time to solve this linear equations without parallel optimizations is around polynomial third degree time.
+The main cryptanalytic step for our attacks is constructing (what we call) key multi-collisions, in which a single
+AEAD ciphertext can be built such that decryption succeeds under some number k of keys.
+
+We build key multi-collision ciphertexts of length $O(k)$ in $O(k^2)$ time using polynomial
+interpolation from off-the-shelf libraries, making them reasonably scalable even to large k.
+We can further optimize to get $O(k \log^2 k)$ running time using a different
+polynomial interpolation technique\cite{BORODIN1974366}.
+
+Given access to an oracle that reveals whether decryption succeeds, our key multi-collisions
+for AES-GCM enables a partitioning oracle attack that recovers the secret key k in
+roughly $m + \log k $ queries in situations where possible keys fall in a set of size $d = m \cdot k$.

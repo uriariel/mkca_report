@@ -4,6 +4,8 @@
 \usepackage[english]{babel}
 \usepackage{ifpdf,newtxtext,newtxmath}
 \usepackage{array,graphicx,dcolumn,multirow,abstract,hanging,fancyhdr,float}
+\usepackage[]{algorithm2e}
+\usepackage[]{graphicx}
 
 \newcommand{\jref}{}
 \newcommand{\jhead}{University of Haifa}
@@ -23,12 +25,15 @@
 \usepackage[hyphenbreaks]{breakurl}
 
 \usepackage{booktabs}
+\usepackage{amsmath}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 \newcolumntype{d}[1]{D{.}{.}{#1}}
 
 \newcommand{\mc}{\multicolumn}
+
+\graphicspath{ {./graphics/} }
 
 \setlength{\parindent}{0em}
 
@@ -55,31 +60,31 @@
     \input{sections/key_commitment.tex}
     \newpage
 
+    \section{Partitioning Oracles}\label{sec:partitioning-oracles}
+    \input{sections/partitioning_oracles.tex}
+    \newpage
+
 
     \section{Multi Key Collision Attacks}\label{sec:multi-key-collision-attacks}
     \input{sections/mkca.tex}
     \newpage
 
 
-    \section{Partitioning Oracles}\label{sec:partitioning-oracles}
-    \input{sections/partitioning_oracles.tex}
+    \section{Our contribution}\label{sec:our-contribution}
+    \input{sections/our_contribution.tex}
     \newpage
 
 
-    \section*{Future Work}
+
+    \section{Future Work}\label{sec:future-work}
     \input{sections/future_work.tex}
     \newpage
 
 
-    \section*{References}
     \bibliographystyle{apalike}
     \bibliography{bibliography}
     \newpage
 
-
-    \section*{Appendix}
-    \input{sections/appendix.tex}
-    \newpage
 
 
 \end{document}

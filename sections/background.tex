@@ -12,12 +12,26 @@ As a result, cryptographers now advocate the use of authenticated encryption wit
 public key encryption.
 
 There has since been a shift to adopt fast CCA-secure schemes, notably AES-GCM, and XSalsa20/Poly1305.
+
 \subsection*{AES-GCM}\label{subsec:aes-gcm}
-AES-GCM is an AEAD scheme that composes AES in counter mode with a specially designed MAC.
-It uses an XOR-universal hash function called GHASH.
+AES-GCM is an AEAD scheme that composes AES in counter mode with a special MAC
+that uses an XOR-universal hash function called GHASH.
 Encryption takes in a nonce N, an AES key K, associated data AD, and plaintext $M_{1},\ldots,M_{n}$ without loss of generality (AES-GCM specification handles various length).
 and it outputs a ciphertext $C_{1},\ldots,C_{n}$ and an authentication tag T.
 The ciphertext blocks $C_{1},\ldots,C_{n}$ are generated using counter mode with E, and the tag T
 is computed by applying GHASH to AD and $C_{1},\ldots,C_{n}$.
 Decryption also computes the tag, compares it with T, and, if successful, outputs the counter-mode decryption of the ciphertext
 blocks.
+For further detailes please revise the original papers.\cite{mg04}
+
+\subsection*{GHASH}\label{subsec:ghash}
+We will omit associated data for simplicity.
+
+For a key K, GHASH first derives a hash key $H = E_k(0^n)$.
+It then hashes by computing
+$h = C_1 \cdot H^{m+1} \oplus\cdot\cdot\cdot\oplus C_{m-1} \cdot H^3 \oplus C_m^\ast \cdot H^2 \oplus L \cdot H$
+where $C_m^\ast$ is $C_m$ concatenated with enough zeros to get an
+n-bit string and L is an n-bit encoding of the length of the
+message.
+The maximum plaintext length is $2^{39} - 256$.
+The multiplications are performed over the finite field GF($2^{128}$) with a particular fixed irreducible polynomial.

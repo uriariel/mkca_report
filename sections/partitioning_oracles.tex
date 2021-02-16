@@ -2,11 +2,75 @@ Thus far, key commitment has not been considered an essential security goal for 
 This is perhaps because attacks exploiting key collision have arisen in relatively niche applications like
 message franking for encrypted messages.
 
-\cite{grubs} introduces partitioning oracle attacks, a new type of CCA in password-authenticated key exchange (PAKE).
+\hfill \break
+
+We consider settings in which an attacker seeks to recover a secret $pw \in D$ from some set
+of possible values D.
+The attacker has access to an interface that takes as input a bit string V, and uses it and pw to
+output the result of some boolean function $f_{pw}: \{0,1\}^\ast \rightarrow \{0,1\}$.
+Here $f_{pw}$ is an abstraction of some cryptographic operations that may succeed or fail
+depending on pw and V .
+We use $f_{pw}(V) = 1$ for success and $f_{pw}(V) = 0$ for failure.
+
+Given oracle access to adaptively query fpw on chosen values, the question is: Can an attacker efficiently recover pw?
+This of course will depend on $f$.
+We refer to $f$ as a partitioning oracle if it is computationally tractable for an adversary,
+given any set $S \subseteq D$, to compute a value $\hat{V}$ that
+partitions $S$ into two sets $S^\ast$ and $S \setminus S^\ast$ with $| S^\ast | \leq |S \setminus S^\ast|$,
+such that $f(pw,\hat{V}) = 1$ for all $pw \in S$ and $f(pw,\hat{V}) = 0$ for all $pw \in S \setminus S^\ast$.
+We call such a $\hat{V}$ a splitting value and refer to $k = |S^{*}|$ as the degree of a splitting value $\hat{V}$.
+
+\hfill \break
+
+For most $f_{pw}$ of practical interest it will be trivial to compute splitting values with degree $k = 1$.
+In this case, a partitioning oracle attack coincides with a traditional online
+brute-force guessing strategy for recovering pw.
+
+Partitioning oracles become more interesting when we can efficiently build splitting values of degree $k > 1$.
+In this case, we can perform a simple adaptive binary search for pw if we can compute splitting values of degree up
+to $k = \lceil d/2 \rceil$.
+Initially set $S = D$ and compute a value $\hat{V}_1$ that splits S into two halves of roughly the same size.
+Query $f_{pw}(\hat{V}_1)$ to learn which half of D the value pw lies within and recurse on that half.
+Like all binary searches this provides an exponential speed-up over the brute-force
+because we can recover pw in $\lceil \log d \rceil $ queries.
+We provide more details about this attack later in this report.
+
+\newpage
+
 A partitioning oracle arises when an attacker can:
 \begin{enumerate}
     \item efficiently prepare ciphertexts that will decrypt under a large number of keys
     \item submit those ciphertexts to an oracle that tells whether decryption succeeds or fails.
 \end{enumerate}
-
 This enables gaining information about the password.
+
+We will use the following algorithm to perform an attack on the encryption scheme $E$.
+
+\begin{algorithm}[H]
+    \KwData{oracle $O$}
+    \KwResult{The secret key $K$ that is used by the encryption algorithm}
+
+    initialization\;
+    set $N =$ the space of all possible keys.\\
+    set $k =$ the partitioning of the set that we will use.
+
+    \While{$|N| > 1$}{
+    divide $N$ into two equal sets and choose one of them.\\
+    set $K = choose(N/k)$.\\
+    prepare a set of ciphertext $C$ that will decrypt under all of the keys $K_{1},\ldots,K_{k}$ in $K$, and the encryption scheme $E$.\\
+
+        \eIf{$O(C) == 1$ (the oracles successfully decrypts $C$)}{
+            set $N = K$.
+        }{
+            set $N = N / K$.
+        }
+    }
+    \caption{Partitioning Oracle Attack}\label{alg:algorithm}
+\end{algorithm}
+
+
+We will be limited by the size of the ciphertext C that we can input to the oracle since a ciphertext
+that we will find that will decrypt under $k$ keys will be roughly of size $k^2$.
+
+Hence this attack is mostly useful against misused AEAD in schemes that draw keys from a small key space e.g.
+password based key derivation schemes.

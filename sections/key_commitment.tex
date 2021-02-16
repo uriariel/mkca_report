@@ -1,9 +1,12 @@
-Key commitment guarantees that a ciphertext can only be
-decrypted under the same key it was encrypted with.
+Key commitment guarantees that a ciphertext can only be decrypted under the same key it was encrypted with.
 If we are to find a ciphertext that decrypts into two valid plaintexts under two different keys do not commit with respect to the key.
 
-Key commitment was initially studied by\cite{for17} and while it might seem like an academic pursuit, \cite{dgrw18} and \cite{glr17} show how to exploit AEADs that do not commit to their key.
+Key commitment was initially studied by \cite{for17} and while it might seem like an academic pursuit, \cite{dgrw18} and \cite{glr17} show how to exploit AEADs that do not commit to their key.
 Nevertheless, AEAD key commitment has not received the required attention and can be overlooked in deployment.
 
 A committing encryption scheme is a scheme for which it is computationally unfeasible to find two keys and a ciphertext that decrypts under both.
 Security standards for committing AEADs were first formalized by\cite{for17}.
+
+\hfill \break
+
+For detailed and formalized explanation about key commitment please reffer to \cite{gueron20}.
